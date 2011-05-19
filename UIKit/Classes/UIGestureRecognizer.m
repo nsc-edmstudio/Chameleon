@@ -42,6 +42,7 @@
         _delaysTouchesBegan = NO;
         _delaysTouchesEnded = YES;
         _enabled = YES;
+        _targets = [[NSMutableArray alloc] init];
 
         [self addTarget:target action:action];
     }
@@ -73,10 +74,28 @@
 {
     NSAssert(target != nil, nil);
     NSAssert(action != NULL, nil);
+    NSMethodSignature *theSignature = [target methodSignatureForSelector:action];
+    NSInvocation *anInvocation = [NSInvocation invocationWithMethodSignature:theSignature];
+    [anInvocation setSelector:action];
+    [anInvocation setTarget:target];
+    [_targets addObject:anInvocation];
 }
 
 - (void)removeTarget:(id)target action:(SEL)action
 {
+    NSMethodSignature *theSignature = [target methodSignatureForSelector:action];
+    NSInvocation *anInvocation = [NSInvocation invocationWithMethodSignature:theSignature];
+    [anInvocation setTarget:target];
+    NSMutableArray *indexesToRemove = [[[NSMutableArray alloc] init] autorelease];
+    for (NSInteger i=0; i<[_targets count]; i++) {
+        NSInvocation *currentInvocation = [_targets objectAtIndex:i];
+        if ([currentInvocation target] == target && [currentInvocation selector] == action) {
+            [indexesToRemove addObject:[NSNumber numberWithInteger:i]];
+        }
+    }
+    for (NSNumber *n in indexesToRemove) {
+        [_targets removeObjectAtIndex:[n integerValue]];
+    }
 }
 
 - (void)requireGestureRecognizerToFail:(UIGestureRecognizer *)otherGestureRecognizer
@@ -90,6 +109,7 @@
 
 - (void)setState:(UIGestureRecognizerState)state
 {
+
     if (state != _state) {
 
         // the docs didn't say explicitly if these state transitions were verified, but I suspect they are. if anything, a check like this
@@ -129,11 +149,20 @@
         _state = state;
             
         // probably do stuff here like send messages if we're in the right state now.
+        for (NSInvocation *invocation in _targets) {
+            if ([[invocation methodSignature] numberOfArguments] == 3) {
+                [invocation setArgument:&self atIndex:2];
+                [invocation invoke];
+            } else {
+                [invocation invoke];
+            }
+        }
     }
 }
 
 - (void)reset
 {
+    _state = UIGestureRecognizerStatePossible;
 }
 
 - (BOOL)canPreventGestureRecognizer:(UIGestureRecognizer *)preventedGestureRecognizer

@@ -64,4 +64,34 @@
     }
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+   // Fail when more than 1 finger detected.
+//   if ([[event touchesForGestureRecognizer:self] count] > 1) {
+//      [self setState:UIGestureRecognizerStateFailed];
+//   }
+    _firstRandomTouchLocation = [[touches anyObject] locationInView:nil];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+   [self setState:UIGestureRecognizerStateEnded];
+   [self reset];
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+   [self setState:UIGestureRecognizerStateFailed];
+   [self reset];
+}
+
+- (void) reset {
+    [super reset];
+}
+
+- (CGPoint)locationInView:(UIView *)view {
+    NSLog(@"%d", _firstRandomTouchLocation.x);
+    return [view convertPoint:_firstRandomTouchLocation fromView:nil];
+}
+
 @end

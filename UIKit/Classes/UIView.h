@@ -29,6 +29,7 @@
 
 #import "UIResponder.h"
 #import "UIGeometry.h"
+#import "UIGestureRecognizerSubclass.h"
 
 enum {
     UIViewAutoresizingNone                 = 0,

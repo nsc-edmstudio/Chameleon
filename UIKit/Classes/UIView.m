@@ -902,6 +902,39 @@ static BOOL _animationsEnabled = YES;
     return [_gestureRecognizers allObjects];
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    for (UIGestureRecognizer *g in _gestureRecognizers) {
+        [g touchesBegan:touches withEvent:event];
+    }
+    [super touchesBegan:touches withEvent:event];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    for (UIGestureRecognizer *g in _gestureRecognizers) {
+        [g touchesMoved:touches withEvent:event];
+    }
+    [super touchesMoved:touches withEvent:event];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    for (UIGestureRecognizer *g in _gestureRecognizers) {
+        [g touchesEnded:touches withEvent:event];
+    }
+    [super touchesEnded:touches withEvent:event];
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    for (UIGestureRecognizer *g in _gestureRecognizers) {
+        [g touchesCancelled:touches withEvent:event];
+    }
+    [super touchesCancelled:touches withEvent:event];
+}
+
+
 + (void)animateWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options animations:(void (^)(void))animations completion:(void (^)(BOOL finished))completion
 {
     const BOOL ignoreInteractionEvents = !((options & UIViewAnimationOptionAllowUserInteraction) == UIViewAnimationOptionAllowUserInteraction);

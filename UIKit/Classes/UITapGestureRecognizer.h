@@ -28,13 +28,17 @@
  */
 
 #import "UIGestureRecognizer.h"
+#import "UIView.h"
 
 @interface UITapGestureRecognizer : UIGestureRecognizer {
-    NSUInteger _numberOfTapsRequired;
-    NSUInteger _numberOfTouchesRequired;
+    NSUInteger          _numberOfTapsRequired;
+    NSUInteger          _numberOfTouchesRequired;
+    CGPoint             _firstRandomTouchLocation;
 }
 
 @property (nonatomic) NSUInteger numberOfTapsRequired;
 @property (nonatomic) NSUInteger numberOfTouchesRequired;
+
+- (CGPoint)locationInView:(UIView *)view;
 
 @end

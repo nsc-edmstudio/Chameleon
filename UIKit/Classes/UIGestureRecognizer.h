@@ -62,7 +62,8 @@ typedef enum {
         BOOL shouldBegin : 1;
         BOOL shouldReceiveTouch : 1;
         BOOL shouldRecognizeSimultaneouslyWithGestureRecognizer : 1;
-    } _delegateHas;	
+    } _delegateHas;
+    NSMutableArray *_targets;
 }
 
 - (id)initWithTarget:(id)target action:(SEL)action;
