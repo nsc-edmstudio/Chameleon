@@ -40,6 +40,15 @@
 
 - (void)configureLayers
 {
+    /* It might be that we need to set up our own layer here to prevent
+       layer changes by the AppKit.
+    [self setLayer:[[CALayer layer] retain]];
+    self.layer.bounds = NSRectToCGRect([self frame]);
+    self.layer.position = CGPointMake(0, 0);
+    self.layer.anchorPoint = CGPointMake(0, 0);
+    */
+    NSLog(@"UIKitView: Attention, please! LAYER: %@", self.layer);
+
     [self setWantsLayer:YES];
 
     [[self layer] insertSublayer:[_screen _layer] atIndex:0];
