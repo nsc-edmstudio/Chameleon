@@ -139,6 +139,11 @@ static UIColor *ClearColor = nil;
     return [[[self alloc] initWithPatternImage:patternImage] autorelease];
 }
 
+/*
+ The real UIKit returns something like singletons here, with a retaincount of NSUint_max. This code returns normal retained (1 retain)
+ object. 
+ */
+/*
 + (UIColor *)blackColor			{ return BlackColor ?: (BlackColor = [[self alloc] initWithNSColor:[NSColor blackColor]]); }
 + (UIColor *)darkGrayColor		{ return DarkGrayColor ?: (DarkGrayColor = [[self alloc] initWithNSColor:[NSColor darkGrayColor]]); }
 + (UIColor *)lightGrayColor		{ return LightGrayColor ?: (LightGrayColor = [[self alloc] initWithNSColor:[NSColor lightGrayColor]]); }
@@ -154,6 +159,24 @@ static UIColor *ClearColor = nil;
 + (UIColor *)purpleColor		{ return PurpleColor ?: (PurpleColor = [[self alloc] initWithNSColor:[NSColor purpleColor]]); }
 + (UIColor *)brownColor			{ return BrownColor ?: (BrownColor = [[self alloc] initWithNSColor:[NSColor brownColor]]); }
 + (UIColor *)clearColor			{ return ClearColor ?: (ClearColor = [[self alloc] initWithNSColor:[NSColor clearColor]]); }
+*/
+// Temporary fix - just return normally inited objects here - FIXME: introduces leaks in code that expects these to be singletons
++ (UIColor *)blackColor			{ return [[self alloc] initWithNSColor:[NSColor blackColor]]; }
++ (UIColor *)darkGrayColor		{ return [[self alloc] initWithNSColor:[NSColor darkGrayColor]]; }
++ (UIColor *)lightGrayColor		{ return [[self alloc] initWithNSColor:[NSColor lightGrayColor]]; }
++ (UIColor *)whiteColor			{ return [[self alloc] initWithNSColor:[NSColor whiteColor]]; }
++ (UIColor *)grayColor			{ return [[self alloc] initWithNSColor:[NSColor grayColor]]; }
++ (UIColor *)redColor			{ return [[self alloc] initWithNSColor:[NSColor redColor]]; }
++ (UIColor *)greenColor			{ return [[self alloc] initWithNSColor:[NSColor greenColor]]; }
++ (UIColor *)blueColor			{ return [[self alloc] initWithNSColor:[NSColor blueColor]]; }
++ (UIColor *)cyanColor			{ return [[self alloc] initWithNSColor:[NSColor cyanColor]]; }
++ (UIColor *)yellowColor		{ return [[self alloc] initWithNSColor:[NSColor yellowColor]]; }
++ (UIColor *)magentaColor		{ return [[self alloc] initWithNSColor:[NSColor magentaColor]]; }
++ (UIColor *)orangeColor		{ return [[self alloc] initWithNSColor:[NSColor orangeColor]]; }
++ (UIColor *)purpleColor		{ return [[self alloc] initWithNSColor:[NSColor purpleColor]]; }
++ (UIColor *)brownColor			{ return [[self alloc] initWithNSColor:[NSColor brownColor]]; }
++ (UIColor *)clearColor			{ return [[self alloc] initWithNSColor:[NSColor clearColor]]; }
+
 
 - (id)initWithWhite:(CGFloat)white alpha:(CGFloat)alpha
 {
